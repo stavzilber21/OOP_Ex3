@@ -17,12 +17,6 @@ class GraphAlgo(GraphAlgoInterface):
         return self.graph
 
     def load_from_json(self, file_name: str) -> bool:
-        """
-        Loads a graph from a json file.
-        @param file_name: The path to the json file
-        @returns True if the loading was successful, False o.w.
-        """
-        # dict = {}
         with open(file_name, "r") as f:
             dict = json.load(f)
         for n in dict["nodes"].values():
@@ -32,23 +26,18 @@ class GraphAlgo(GraphAlgoInterface):
                 # print(src, dest, w)
                 self.connect(int(src), int(dest), w)
 
-        if(graph.v_size!=0):
-            return true
+        if self.graph.v_size!=0:
+            return True
         else:
-            return false
+            return False
 
     def save_to_json(self, file_name: str) -> bool:
-        """
-        Saves the graph in JSON format to a file
-        @param file_name: The path to the out file
-        @return: True if the save was successful, False o.w.
-        """
-        with open(file_name, 'w') as f:
-            json.dump(self, indent=2, fp=f, default=lambda a: a.__dict__)
-        if(os.path.exists(file_name)):
-            return true
+        if os.path.exists(file_name):
+            with open(file_name, 'w') as f:
+                json.dump(self, indent=2, fp=f, default=lambda a: a.__dict__)
+                return True
         else:
-            return false
+            return False
 
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
