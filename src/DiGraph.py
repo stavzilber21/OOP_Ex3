@@ -7,8 +7,6 @@ class DiGraph(GraphInterface):
         self.nodes = nodes
         self.edges = {(e['src'], e['dest']): e['w'] for e in edges}
         self.mc = 0
-        self.numNodes = 0
-        self.numEdges = 0
 
     """This abstract class represents an interface of a graph."""
     def v_size(self) -> int:
@@ -36,6 +34,8 @@ class DiGraph(GraphInterface):
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         if id1 in self.nodes.keys() and id2 in self.nodes.keys():
+            if self.getEdge(id1, id2):
+                return False
             self.edges[id1][id2] = weight
             self.mc += 1
             return True
@@ -52,7 +52,9 @@ class DiGraph(GraphInterface):
 
     def remove_node(self, node_id: int) -> bool:
         if node_id in self.nodes:
-            del self._nodes[node_id]
+            del self.nodes[node_id]
+            for e in self.edges[node_id]:
+                if(e[1])
             self.mc += 1
             return True
         return False

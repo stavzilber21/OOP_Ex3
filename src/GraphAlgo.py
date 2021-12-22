@@ -2,6 +2,7 @@ from typing import List
 import json
 import os
 from src import GraphAlgoInterface
+from src.DiGraph import DiGraph
 from src.GraphInterface import GraphInterface
 
 
@@ -17,28 +18,29 @@ class GraphAlgo(GraphAlgoInterface):
         return self.graph
 
     def load_from_json(self, file_name: str) -> bool:
-        with open(file_name, "r") as f:
-            dict = json.load(f)
-        for n in dict["nodes"].values():
-            self.add_node(n["id"], (n['pos']['x'], n['pos']['y']))
-        for src, out in dict["edges"].items():
-            for dest, w in out.items():
-                # print(src, dest, w)
-                self.connect(int(src), int(dest), w)
-
-        if self.graph.v_size!=0:
+        try:
+            with open(file_name, "r") as f:
+                dict = json.load(f)
+                graph = DiGraph()
+            for n in dict["nodes"].values():
+                self.add_node(n["id"], (n['pos']['x'], n['pos']['y']))
+            edges = dict["Edges"]
+            for e in edges:
+                graph.add_edge(e["src"], e["dest"], e["w"])
+            self.graph = graph
             return True
-        else:
+        except Exception:
             return False
 
+
+
     def save_to_json(self, file_name: str) -> bool:
-        if os.path.exists(file_name):
+        try:
             with open(file_name, 'w') as f:
                 json.dump(self, indent=2, fp=f, default=lambda a: a.__dict__)
                 return True
-        else:
+        except Exception:
             return False
-
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         """
