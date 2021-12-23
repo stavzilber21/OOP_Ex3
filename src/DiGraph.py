@@ -65,17 +65,17 @@ class DiGraph(GraphInterface):
             return True
 
     def remove_node(self, node_id: int) -> bool:
-        if node_id in self.nodes:
-            del self.nodes[node_id]
-            for e in self.edges.items():
-                if e[0]==node_id or e[1]==node_id:
-                    self.edges.get(node_id).pop(e)
-            self.mc += 1
-            return True
+        # if node_id in self.nodes:
+        #     del self.nodes[node_id]
+        #     for e in self.edges.items():
+        #         if e[0]==node_id or e[1]==node_id:
+        #             #self.edges.get(node_id).pop(e)
+        #     self.mc += 1
+        #     return True
         return False
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
-       if node_id1 in self.nodes.keys() and node_id2 in self.nodes.keys():
+       if node_id1 in self.nodes and node_id2 in self.nodes:
             for e in self.edges.items():
                if e[0]==node_id1:
                    if e[1]==node_id2:
