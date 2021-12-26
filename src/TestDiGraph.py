@@ -1,6 +1,4 @@
 import unittest
-from operator import pos
-
 from src.DiGraph import DiGraph
 
 
