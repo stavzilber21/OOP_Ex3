@@ -32,17 +32,18 @@ class DiGraph(GraphInterface):
     def all_in_edges_of_node(self, id1: int) -> dict:
         ans = {}
         for key,value in self.edges.items():
-            if value[0]['dest']==id1:
-                ans[len(ans)] = {(value[0]['src']):value[0]['w']}
+            if value['dest']==id1:
+                ans[len(ans)] = {(value['src']):value['w']}
         return ans
 
 
     def all_out_edges_of_node(self, id1: int) -> dict:
         ans = {}
         for key, value in self.edges.items():
-            if value[0]['src'] == id1:
-                ans[len(ans)] = {(value[0]['dest']): value[0]['w']}
+            if value['src'] == id1:
+                ans[len(ans)] = {(value['dest']): value['w']}
         return ans
+
 
 
     def get_mc(self) -> int:
@@ -70,9 +71,9 @@ class DiGraph(GraphInterface):
 
         # erase all connected edges using other functions
             for key, value in list(self.edges.items()):
-                if value[0]['src'] == node_id:
+                if value['src'] == node_id:
                     del self.edges[key]
-                elif value[0]['dest'] == node_id:
+                elif value['dest'] == node_id:
                     del self.edges[key]
             self.mc += 1
             return True
@@ -81,7 +82,7 @@ class DiGraph(GraphInterface):
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
        if node_id1 in self.nodes and node_id2 in self.nodes:
            for key, value in list(self.edges.items()):
-               if value[0]['src'] == node_id1 and value[0]['dest'] == node_id2:
+               if value['src'] == node_id1 and value['dest'] == node_id2:
                    del self.edges[key]
            self.mc += 1
            return True

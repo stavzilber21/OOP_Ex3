@@ -50,11 +50,11 @@ class MyTestCase(unittest.TestCase):
 
     def test_all_in_edges_of_node(self):
         self.g.add_edge(2, 1, 4)
-        dict_in={(2,4),(0,1)} #src, weihgt
+        dict_in={0: {0: 1}, 1: {2: 4}}
         self.assertEquals(dict_in, self.g.all_in_edges_of_node(1))
 
     def test_all_out_edges_of_node(self):
-        dict_out={(0,1.1),(2, 1.3),(3, 1.9)}   #dest, weihgt
+        dict_out={0: {0: 1.1}, 1: {2: 1.3}, 2: {3: 1.9}}
         self.assertEquals(dict_out, self.g.all_out_edges_of_node(1))
 
 if __name__ == '__main__':

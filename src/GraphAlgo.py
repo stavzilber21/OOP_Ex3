@@ -14,10 +14,10 @@ import Node
 class GraphAlgo(GraphAlgoInterface):
     """This abstract class represents an interface of a graph."""
 
-    def __init__(self, graph:DiGraph)-> None:
-        self.nodes = graph.nodes
-        self.edges = {(e['src'], e['dest']): e['w'] for e in graph.edges}
-        self.graph = DiGraph(self.nodes,self.edges)
+    # def __init__(self, graph:DiGraph)-> None:
+    #     self.nodes = graph.nodes
+    #     self.edges = {(e['src'], e['dest']): e['w'] for e in graph.edges}
+    #     self.graph = DiGraph(self.nodes,self.edges)
 
     def __init__(self)-> None:
         self.nodes = {}
@@ -71,14 +71,14 @@ class GraphAlgo(GraphAlgoInterface):
     def dijkstra(self, src: int) -> (list, list):
         unvisited = list(self.nodes.keys())
 
-        shortest_from_src = {i:float('inf') for i in unvisited} #dist between src and other nodes
-        shortest_from_src[src] = 0 #dist from src to itself is 0
+        shortest_from_src = {i: float('inf') for i in unvisited}  # dist between src and other nodes
+        shortest_from_src[src] = 0  # dist from src to itself is 0
 
-        previous_nodes=[]
+        previous_nodes = {}
 
         while unvisited:
             current = None
-            #let's find the node with the lowest weight value
+            # let's find the node with the lowest weight value
             for node in unvisited:
                 if current == None:
                     current = node
@@ -91,9 +91,8 @@ class GraphAlgo(GraphAlgoInterface):
                 m = list(neighbors[i])
                 value = shortest_from_src[current] + neighbors[i].get(m[0])
                 if value < shortest_from_src[m[0]]:
-                    shortest_from_src[m[0]]=value
-                    previous_nodes.insert(m[0],current)
-
+                    shortest_from_src[m[0]] = value
+                    previous_nodes[m[0]] = current
 
             unvisited.remove(current)
 
@@ -103,16 +102,18 @@ class GraphAlgo(GraphAlgoInterface):
         return float('inf') not in self.dijkstra(0)[1]
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
+        list = self.dijkstra(id1)
+
+        # if there is no path, return
+        if list[1].get(id2) == float('inf'):
+            return float('inf'), []
+
         answer = []
         node = id2
 
-        list = self.dijkstra(id1)
-        print(list)
-        print(list[0])
-
         while node != id1:
             answer.append(node)
-            node = list[0][node]
+            node = list[0].get(node)
 
         answer.append(id1)
         result = answer[::-1]
@@ -161,29 +162,27 @@ class GraphAlgo(GraphAlgoInterface):
         :return: A list of the nodes id's in the path, and the overall distance
         """
 
-
-
     def centerPoint(self) -> (int, float):
 
         if not self.is_connected():
-            return None, None
+            return None, float('inf')
 
         list = []
 
         for i in range(len(self.nodes)):
-            dist = self.dijkstra(i)[1] # list of distances
+            dist = self.dijkstra(i)[1]  # list of distances
             # find maximum
-            max=0
+            max = 0
             for j in range(len(dist)):
-                if dist[j]>max:
-                    max=dist[j]
-            list.insert(i,max)
+                if dist[j] > max:
+                    max = dist[j]
+            list.insert(i, max)
 
         min = float('inf')
 
         for i in range(len(list)):
-            if min>list[i]:
-                min=list[i]
+            if min > list[i]:
+                min = list[i]
                 node = i
 
         return node, min
@@ -198,23 +197,23 @@ class GraphAlgo(GraphAlgoInterface):
             x,y,z = v.getPos()
             plt.plot(float(x), float(y), markersize=6, marker="o", color="yellow")
             plt.text(float(x), float(y), str(v.id), color="red", fontsize=6)
-        for u in self.graph.edges.values():
-            src=self.graph.nodes.get(u["src"])
-            dest = self.graph.nodes.get(u["dest"])
-            srcX=src.getPos()[0]
-            srcY=src.getPos()[1]
-            destX = dest.getPos()[0]
-            destY = dest.getPos()[1]
+            for u in self.graph.edges.values():
+                src=self.graph.nodes.get(u["src"])
+                dest = self.graph.nodes.get(u["dest"])
+                srcX=src.getPos()[0]
+                srcY=src.getPos()[1]
+                destX = dest.getPos()[0]
+                destY = dest.getPos()[1]
             #plt.Arrow(float(srcX),float(srcY),float(destX),float(destY),1.0)
-            # plt.annotate("", xy=(srcX,srcY), xytext=(destX,destY), arrowprops=dict(arrowstyle="->"))
-            # plt.annotate("", xy=(x, y), xytext=(x_, y_), arrowprops=dict(arrowstyle="<-"))
-            x_values = [srcX, srcY]
-
-            y_values = [destX, destY]
-
-            plt.plot(x_values, y_values)
+                plt.annotate("", xy=float(srcX,srcY), xytext=float(destX,destY), arrowprops=dict(arrowstyle="->"))
+            #   plt.annotate("", xy=(x, y), xytext=(x_, y_), arrowprops=dict(arrowstyle="<-"))
+            #plt.plot(srcX, srcY, destX, destY)
+            #plt.annotate("", xy=(u,u+1), xytext=(u+10,u+11),
+                         #arrowprops=dict(arrowstyle="<-", edgecolor="yellow", lw=1.5))
 
         plt.show()
+
+
 
 
 
