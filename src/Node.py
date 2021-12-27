@@ -1,6 +1,6 @@
 
 class Node:
-    def __init__(self, id, pos: tuple) -> None:
+    def __init__(self, id, pos: tuple=None) -> None:
         self.pos = pos
         self.id = id
 

@@ -13,12 +13,6 @@ import Node
 
 class GraphAlgo(GraphAlgoInterface):
     """This abstract class represents an interface of a graph."""
-
-    # def __init__(self, graph:DiGraph)-> None:
-    #     self.nodes = graph.nodes
-    #     self.edges = {(e['src'], e['dest']): e['w'] for e in graph.edges}
-    #     self.graph = DiGraph(self.nodes,self.edges)
-
     def __init__(self)-> None:
         self.nodes = {}
         self.edges = {}
@@ -38,7 +32,8 @@ class GraphAlgo(GraphAlgoInterface):
             for n in range(len(dict["Nodes"])):
                 id = dict["Nodes"][n]["id"]
                 if(len(dict["Nodes"][n])==1):
-                    tuple = [np.random.uniform(35, 36), np.random.uniform(32, 33)]
+                    tuple=None
+                    # tuple = [np.random.uniform(35, 36), np.random.uniform(32, 33)]
                     graph.add_node(id, tuple)
                 else:
                     pos = dict["Nodes"][n]["pos"]
@@ -57,16 +52,18 @@ class GraphAlgo(GraphAlgoInterface):
         except Exception:
             return False
 
-
     def save_to_json(self, file_name: str) -> bool:
+        dict = {"Edges": [], "Nodes": []}
+        for i in self.graph.edges.values():
+            dict["Edges"].append({"src": i['src'], "w": i['w'], "dest": i['dest']})
+        for i in self.graph.nodes.values():
+            dict["Nodes"].append({"pos": i.getPos(), "id": i.getId()})
         try:
-            dict_e = {"Edges": self.edges}
             with open(file_name, 'w') as f:
-                dict_n = {"Nodes": self.nodes}
-                json.dump(dict_e, indent=2, fp=f, default=lambda a: a.__dict__)
-                return True
-        except Exception:
+                json.dump(dict, indent=2, fp=f)
+        except:
             return False
+        return True
 
     def dijkstra(self, src: int) -> (list, list):
         unvisited = list(self.nodes.keys())
@@ -122,13 +119,13 @@ class GraphAlgo(GraphAlgoInterface):
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if not self.is_connected():
-            return [],0.0
+            return [], 0.0
 
-        copy_cities = [j for j in node_lst]# copy node list
+        copy_cities = [j for j in node_lst] #copy node list
         result = []
         answer = 0
 
-        temp = node_lst[0]
+        temp = node_lst[0].getId()
         result.append(copy_cities[0])
         copy_cities.remove(copy_cities[0])
 
@@ -138,7 +135,7 @@ class GraphAlgo(GraphAlgoInterface):
             place = -1
             for i in range(len(copy_cities)):
                 open = copy_cities[i]
-                dist = self.shortest_path(temp, open)[0]
+                dist = (self.shortest_path(temp, open))[0]
                 if dist < min:
                     min = dist
                     same = open
@@ -153,14 +150,10 @@ class GraphAlgo(GraphAlgoInterface):
             copy_cities.remove(copy_cities[place])
             if len(copy_cities)==1 and same+1 not in result:
                 result.append(same+1)
+            for i in self.graph.edges.values():
+                answer = answer + i['w']
 
         return result, answer
-
-        """
-        Finds the shortest path that visits all the nodes in the list
-        :param node_lst: A list of nodes id's
-        :return: A list of the nodes id's in the path, and the overall distance
-        """
 
     def centerPoint(self) -> (int, float):
 
@@ -187,29 +180,27 @@ class GraphAlgo(GraphAlgoInterface):
 
         return node, min
 
-        """
-        Finds the node that has the shortest distance to it's farthest node.
-        :return: The nodes id, min-maximum distance
-        """
 
     def plot_graph(self) -> None:
         for v in self.graph.nodes.values():
-            x,y,z = v.getPos()
+            if v.getPos()!=None:
+                x,y,z = v.getPos()
+            else:
+                x = random.randrange(0,100)
+                y = random.randrange(0,100)
+                z = random.randrange(0,100)
+                v.setPos((x,y,z))
             plt.plot(float(x), float(y), markersize=6, marker="o", color="yellow")
             plt.text(float(x), float(y), str(v.id), color="red", fontsize=6)
-            for u in self.graph.edges.values():
-                src=self.graph.nodes.get(u["src"])
-                dest = self.graph.nodes.get(u["dest"])
-                srcX=src.getPos()[0]
-                srcY=src.getPos()[1]
-                destX = dest.getPos()[0]
-                destY = dest.getPos()[1]
-            #plt.Arrow(float(srcX),float(srcY),float(destX),float(destY),1.0)
-                plt.annotate("", xy=float(srcX,srcY), xytext=float(destX,destY), arrowprops=dict(arrowstyle="->"))
-            #   plt.annotate("", xy=(x, y), xytext=(x_, y_), arrowprops=dict(arrowstyle="<-"))
-            #plt.plot(srcX, srcY, destX, destY)
-            #plt.annotate("", xy=(u,u+1), xytext=(u+10,u+11),
-                         #arrowprops=dict(arrowstyle="<-", edgecolor="yellow", lw=1.5))
+        for u in self.graph.edges.values():
+            src=self.graph.nodes.get(u["src"])
+            dest = self.graph.nodes.get(u["dest"])
+            srcX=src.getPos()[0]
+            srcY=src.getPos()[1]
+            destX = dest.getPos()[0]
+            destY = dest.getPos()[1]
+            plt.annotate("", xy=(float(srcX),float(srcY)), xytext=(float(destX),float(destY)),
+                         arrowprops=dict(arrowstyle="<-", edgecolor="pink", lw=1.0))
 
         plt.show()
 

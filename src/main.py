@@ -22,7 +22,7 @@ def check():
     """
     # check0()
     check1()
-    # check2()
+    #check2()
 
 
 def check0():
@@ -62,7 +62,7 @@ def check1():
     :return:
     """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
-    file = "C:/Users/User/PycharmProjects/Ex3/JSON files/A5.json"
+    file = "C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json"
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
 
     print(g_algo)
@@ -71,23 +71,25 @@ def check1():
     # print("nodes:",len(g_algo.nodes))
     # print(g_algo.graph.all_out_edges_of_node(2))
     # print(g_algo.graph.get_edge(2,32)[0]['w'])
-    print(g_algo.dijkstra(2))
+    # print(g_algo.dijkstra(2))
     # print(g_algo.shortest_path(2, 32))
     # print(g_algo.shortest_path(0, 3))
     # print(g_algo.shortest_path(3, 1))
     # print(g_algo.centerPoint())
-    #g_algo.save_to_json(file + '_saved')
+    # g_algo.save_to_json(file + '_saved')
     # print(g_algo.TSP([23,34,45]))
     #print(g_algo.dijkstra(5))
     #print(g_algo.shortest_path(5,36))
     # prev = g_algo.dijkstra(5)[0]
     # short = g_algo.dijkstra(5)[1]
     #g_algo.print_result(prev,short,5,36)
-    # print(g_algo.TSP(g_algo.nodes))
-    #g_algo.plot_graph()
+    print(g_algo.TSP(g_algo.nodes))
+
     # print(g_algo.graph.edges.get(0,16)[0]['w'])
-    print(g_algo.shortest_path(0,3))
+    # print(g_algo.shortest_path(0,3))
     print(g_algo.centerPoint())
+    print(g_algo.shortest_path(4,6))
+    g_algo.plot_graph()
 
 
 
@@ -95,22 +97,22 @@ def check2():
     """ This function tests the naming, basic testing over A5 json file.
       :return:
     #   """
-    # g_algo = GraphAlgo()
-    # file = 'C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json'
-    # g_algo.load_from_json(file)
-    #print(g_algo)
-    # g_algo.get_graph().remove_edge(13, 14)
-    # # g_algo.save_to_json(file + "_edited")
-    # dist, path = g_algo.shortest_path(1, 7)
-    # print(dist, path)
-    # dist, path = g_algo.shortest_path(47, 19)
-    # print(dist, path)
-    # dist, path = g_algo.shortest_path(20, 2)
-    # print(dist, path)
-    # dist, path = g_algo.shortest_path(2, 20)
-    # print(dist, path)
-    # print(g_algo.TSP([1, 2, 3]))
-    #g_algo.plot_graph()
+    g_algo = GraphAlgo()
+    file = 'C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json'
+    g_algo.load_from_json(file)
+    print(g_algo)
+    g_algo.get_graph().remove_edge(13, 14)
+    # g_algo.save_to_json(file + "_edited")
+    dist, path = g_algo.shortest_path(1, 7)
+    print(dist, path)
+    dist, path = g_algo.shortest_path(47, 19)
+    print(dist, path)
+    dist, path = g_algo.shortest_path(20, 2)
+    print(dist, path)
+    dist, path = g_algo.shortest_path(2, 20)
+    print(dist, path)
+    print(g_algo.TSP([1, 2, 3]))
+    g_algo.plot_graph()
 
 
 # def check3():
