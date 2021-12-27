@@ -15,8 +15,8 @@ class MyTestCase(unittest.TestCase):
     def test_load_from_json(self):
         self.assertEqual(g_algo.load_from_json(file), True)
 
-    # def test_save_to_json(self):
-    #     self.assertEqual(g_algo.save_to_json('saved_'+"C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json"),True)
+    def test_save_to_json(self):
+        self.assertEqual(g_algo.save_to_json('saved_'+"C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json"),True)
 
     def test_shortest_path(self):
         g_algo = GraphAlgo()
