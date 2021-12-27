@@ -125,7 +125,7 @@ class GraphAlgo(GraphAlgoInterface):
         result = []
         answer = 0
 
-        temp = node_lst[0].getId()
+        temp = node_lst[0]
         result.append(copy_cities[0])
         copy_cities.remove(copy_cities[0])
 

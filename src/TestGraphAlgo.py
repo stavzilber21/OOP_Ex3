@@ -9,15 +9,6 @@ file = "C:/Users/User/PycharmProjects/Ex3/JSON files/A3.json"
 
 class MyTestCase(unittest.TestCase):
     def test_get_graph(self):
-        graph_a.load("C:\\Users\\User\\IdeaProjects\\Ex2\\src\\data\\1000Nodes.json");
-
-        startTime = System.currentTimeMillis();
-        assertEquals(graph_a.getGraph(), graph);
-        long
-        endTime = System.currentTimeMillis();
-        System.out.println("That took " + (endTime - startTime) + " milliseconds");
-
-        graph_b.load("C:\\Users\\User\\IdeaProjects\\Ex2\\src\\data\\10000Nodes.json");
         self.assertEqual(g_algo.graph, g_algo.get_graph())
 
 
